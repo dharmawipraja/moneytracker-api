@@ -6,11 +6,22 @@ const Transaction = require('../models/Transaction');
 exports.getTransactions = async (req, res, next) => {
   try {
     const transactions = await Transaction.find();
+    const amounts = transactions.map((transaction) => transaction.amount);
+    const totalIncome = amounts
+      .filter((item) => item > 0)
+      .reduce((acc, item) => (acc += item), 0) * 1
+      .toFixed(2);
+    const totalExpense = amounts
+      .filter((item) => item < 0)
+      .reduce((acc, item) => (acc += item), 0) * -1
+      .toFixed(2);
 
     return res.status(200).json({
       success: true,
       count: transactions.length,
-      data: transactions
+      data: transactions,
+      totalIncome,
+      totalExpense
     });
   } catch (err) {
     return res.status(500).json({
