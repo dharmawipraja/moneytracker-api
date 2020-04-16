@@ -6,8 +6,10 @@ const Transaction = require('../models/Transaction');
 exports.getTransactions = async (req, res, next) => {
   try {
     const skipQuery = parseInt(req.query.page) * 5;
+    // TODO: move get all transaction without pagination to get all amounts
+    const allTransactions = await Transaction.find();
     const transactions = await Transaction.find().skip(skipQuery).limit(5);
-    const amounts = transactions.map((transaction) => transaction.amount);
+    const amounts = allTransactions.map((transaction) => transaction.amount);
     const totalIncome = amounts
       .filter((item) => item > 0)
       .reduce((acc, item) => (acc += item), 0) * 1
