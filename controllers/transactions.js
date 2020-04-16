@@ -5,7 +5,8 @@ const Transaction = require('../models/Transaction');
 // @access  Public
 exports.getTransactions = async (req, res, next) => {
   try {
-    const transactions = await Transaction.find();
+    const skipQuery = parseInt(req.query.page) * 5;
+    const transactions = await Transaction.find().skip(skipQuery).limit(5);
     const amounts = transactions.map((transaction) => transaction.amount);
     const totalIncome = amounts
       .filter((item) => item > 0)
