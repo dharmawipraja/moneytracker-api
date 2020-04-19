@@ -4,6 +4,8 @@ const colors = require('colors');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
 
+const auth = require('./middlewares/auth')
+
 dotenv.config();
 
 connectDB();
@@ -20,9 +22,13 @@ if(process.env.NODE_ENV === 'development') {
 const transactions = require('./routes/transactions');
 app.use('/api/v1/transactions', transactions);
 
+// IDM API
+const idm = require('./routes/idm');
+app.use('/api/v1/idm', idm);
+
 // User API
 const user = require('./routes/users');
-app.use('/api/v1/user', user);
+app.use('/api/v1/user', auth, user);
 
 const PORT = process.env.PORT || 5000;
 

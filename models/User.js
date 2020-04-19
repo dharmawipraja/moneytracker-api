@@ -51,15 +51,15 @@ UserSchema.methods.generateAuthToken = async function() {
   return token;
 };
 
-UserSchema.statics.findByCredentials = async (email, password, res) => {
+UserSchema.statics.findByCredentials = async (email, password) => {
   // Search user
-  const user = await User.findOne({ email }).exec();
+  const user = await User.findOne({ email });
   if (!user) {
-    res.status(401).send({ error: 'Invalid login credentials' })
+    return { error: 'Invalid login credentials' }
   }
   const isPasswordMatch = await bcrypt.compare(password, user.password);
   if (!isPasswordMatch) {
-    res.status(401).send({ error: 'Invalid login credentials' })
+    return { error: 'Invalid login credentials' }
   }
   return user;
 };
