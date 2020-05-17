@@ -1,7 +1,14 @@
 const User = require('../models/User');
 
 exports.userProfile = async (req, res, next) => {
-  res.send(req.user)
+  const { _id, name, email } = req.user;
+  const profile = {
+    _id,
+    name,
+    email
+  };
+  
+  res.status(200).send(profile);
 };
 
 exports.logoutUser = async (req, res, next) => {
