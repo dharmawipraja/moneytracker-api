@@ -1,5 +1,4 @@
 const User = require('../models/User');
-const auth = require('../middlewares/auth')
 
 exports.userProfile = async (req, res, next) => {
   res.send(req.user)

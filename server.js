@@ -20,7 +20,7 @@ if(process.env.NODE_ENV === 'development') {
 
 // Transaction API
 const transactions = require('./routes/transactions');
-app.use('/api/v1/transactions', transactions);
+app.use('/api/v1/transactions', auth, transactions);
 
 // IDM API
 const idm = require('./routes/idm');
